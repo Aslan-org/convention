@@ -6,11 +6,11 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import org.afecam.convention.data.Collections;
 
-public class MongoDao {
+public class MongoDAO {
 
     private MongoClient dbClient;
 
-    public MongoDao(MongoClient dbClient) {
+    public MongoDAO(MongoClient dbClient) {
         this.dbClient = dbClient;
     }
 
