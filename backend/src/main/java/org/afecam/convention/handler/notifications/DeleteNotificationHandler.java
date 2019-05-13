@@ -59,5 +59,3 @@ public class DeleteNotificationHandler implements Handler<RoutingContext> {
         });
       });
     }
-  }
-  

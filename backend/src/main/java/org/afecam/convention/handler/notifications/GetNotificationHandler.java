@@ -51,4 +51,3 @@ public class GetNotificationHandler implements Handler<RoutingContext> {
       });
     }
   }
-  

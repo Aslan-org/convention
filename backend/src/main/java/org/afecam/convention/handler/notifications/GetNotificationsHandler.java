@@ -28,7 +28,7 @@ public class GetNotificationsHandler implements Handler<RoutingContext> {
         routingContext.request()
           .absoluteURI());
   
-  
+ 
       JsonObject query = routingContext.getBodyAsJson();
       Future<JsonArray> future = mongoDAO.retrieveBatch(Collections.Notification, query);
   
@@ -50,4 +50,5 @@ public class GetNotificationsHandler implements Handler<RoutingContext> {
       });
     }
   }
+  
   
