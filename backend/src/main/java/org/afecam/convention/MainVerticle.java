@@ -15,6 +15,7 @@ import io.vertx.ext.web.handler.CorsHandler;
 import org.afecam.convention.data.Collections;
 import org.afecam.convention.handler.HealthCheckHandler;
 import org.afecam.convention.handler.ResourceNotFoundHandler;
+import org.afecam.convention.handler.messages.*;
 
 public class MainVerticle extends AbstractVerticle {
 
@@ -60,6 +61,9 @@ public class MainVerticle extends AbstractVerticle {
                 .last()
                 .handler(new ResourceNotFoundHandler());
 
+        // messages endpoint
+        router.mountSubRouter("/messages", messagesRoutes());
+
         server.requestHandler(router::accept)
                 .listen(8888, ar -> {
                     if (ar.succeeded()) {
@@ -77,6 +81,22 @@ public class MainVerticle extends AbstractVerticle {
     public void start(Future<Void> startFuture) throws Exception {
         Future<Void> steps = prepareDatabase().compose(v -> startHttpServer());
         steps.setHandler(startFuture.completer());
+    }
+
+    private Router messagesRoutes() {
+        LOGGER.debug("Mounting '/messages' endpoint");
+        Router router = Router.router(vertx);
+        //Get
+        router.get("/").handler(new GetMessagesHandler(dbClient));
+        router.get("/:id").handler(new GetMessageHandler(dbClient));
+        //post
+        router.post("/").handler(new PostMessageHandler(dbClient));
+        //put
+        router.put("/:id").handler(new PutMessageHandler(dbClient));
+        //delete
+        router.delete("/:id").handler(new DeleteMessageHandler(dbClient));
+
+        return router;
     }
 
     private void initDB() {
