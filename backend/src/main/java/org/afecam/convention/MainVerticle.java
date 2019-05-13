@@ -64,6 +64,9 @@ public class MainVerticle extends AbstractVerticle {
         // messages endpoint
         router.mountSubRouter("/messages", messagesRoutes());
 
+        // notifications endpoint
+        router.mountSubRouter("/notifications", notificationsRoutes());
+
         server.requestHandler(router::accept)
                 .listen(8888, ar -> {
                     if (ar.succeeded()) {
@@ -98,6 +101,23 @@ public class MainVerticle extends AbstractVerticle {
 
         return router;
     }
+
+    private Router notificationsRoutes() {
+        LOGGER.debug("Mounting '/notifications' endpoint");
+    
+        Router router = Router.router(vertx);
+        //Get
+        router.get("/").handler(new GetNotificationsHandler(dbClient));
+        router.get("/:id").handler(new GetNotificationHandler(dbClient));
+        //post
+        router.post("/").handler(new PostNotificationHandler(dbClient));
+        //put
+        router.put("/:id").handler(new PutNotificationHandler(dbClient));
+        //delete
+        router.delete("/:id").handler(new DeleteNotificationHandler(dbClient));
+    
+        return router;
+      }
 
     private void initDB() {
         JsonObject dbConfig = new JsonObject().put("host", "172.17.0.2")
