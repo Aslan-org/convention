@@ -16,6 +16,7 @@ import org.afecam.convention.data.Collections;
 import org.afecam.convention.handler.HealthCheckHandler;
 import org.afecam.convention.handler.ResourceNotFoundHandler;
 import org.afecam.convention.handler.messages.*;
+import org.afecam.convention.handler.users.*;
 
 public class MainVerticle extends AbstractVerticle {
 
@@ -64,6 +65,9 @@ public class MainVerticle extends AbstractVerticle {
         // messages endpoint
         router.mountSubRouter("/messages", messagesRoutes());
 
+        //users endpoint
+        router.mountSubRouter("/users", usersRoutes());
+
         server.requestHandler(router::accept)
                 .listen(8888, ar -> {
                     if (ar.succeeded()) {
@@ -98,6 +102,23 @@ public class MainVerticle extends AbstractVerticle {
 
         return router;
     }
+
+    private Router usersRoutes() {
+        LOGGER.debug("Mounting '/users' endpoint");
+        Router router = Router.router(vertx);
+        //Get
+        router.get("/").handler(new GetUsersHandler(dbClient));
+        router.get("/:id").handler(new GetUserHandler(dbClient));
+        //post
+        router.post("/").handler(new PostUserHandler(dbClient));
+        //put
+        router.put("/:id").handler(new PutUserHandler(dbClient));
+        //delete
+        router.delete("/:id").handler(new DeleteUserHandler(dbClient));
+
+        return router;
+    }
+
 
     private void initDB() {
         JsonObject dbConfig = new JsonObject().put("host", "172.17.0.2")
