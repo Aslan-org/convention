@@ -16,6 +16,7 @@ import org.afecam.convention.data.Collections;
 import org.afecam.convention.handler.HealthCheckHandler;
 import org.afecam.convention.handler.ResourceNotFoundHandler;
 import org.afecam.convention.handler.messages.*;
+import org.afecam.convention.handler.notifications.*;
 
 public class MainVerticle extends AbstractVerticle {
 

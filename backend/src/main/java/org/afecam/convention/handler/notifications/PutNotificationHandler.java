@@ -1,4 +1,4 @@
-package org.afecam.convention.handler.messages;
+package org.afecam.convention.handler.notifications;
 
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -24,7 +24,7 @@ public class PutNotificationHandler implements Handler<RoutingContext> {
   
     @Override
     public void handle(RoutingContext routingContext) {
-      LOGGER.debug("put a " + Collections.Article + " {}",
+      LOGGER.debug("put a " + Collections.Notification + " {}",
         routingContext.request()
           .absoluteURI());
   

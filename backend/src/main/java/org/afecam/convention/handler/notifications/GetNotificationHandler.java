@@ -1,4 +1,4 @@
-package org.afecam.convention.handler.messages;
+package org.afecam.convention.handler.notifications;
 
 import io.vertx.core.Future;
 import io.vertx.core.Handler;

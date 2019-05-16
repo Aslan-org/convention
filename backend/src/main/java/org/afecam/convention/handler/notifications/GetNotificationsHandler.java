@@ -1,4 +1,4 @@
-package org.afecam.convention.handler.messages;
+package org.afecam.convention.handler.notifications;
 
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -11,6 +11,7 @@ import io.vertx.ext.web.RoutingContext;
 import org.afecam.convention.dao.MongoDAO;
 import org.afecam.convention.data.Collections;
 import org.afecam.convention.responses.MediaTypes;
+import io.vertx.core.json.JsonArray;
 
 import java.net.HttpURLConnection;
 
@@ -30,7 +31,7 @@ public class GetNotificationsHandler implements Handler<RoutingContext> {
   
  
       JsonObject query = routingContext.getBodyAsJson();
-      Future<JsonArray> future = mongoDAO.retrieveBatch(Collections.Notification, query);
+      Future<JsonArray> future = mongoDAO.search(Collections.Notification, query);
   
       JsonObject response = new JsonObject();
       routingContext.response()
@@ -49,6 +50,6 @@ public class GetNotificationsHandler implements Handler<RoutingContext> {
         routingContext.response().end(response.encode());
       });
     }
-  }
+}
   
   
